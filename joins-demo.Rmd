@@ -11,8 +11,7 @@ Joins are powerful functions that allow you to connect two datasets together thr
 
 As a recap of how joins work, we're going to show a simple example of two different kinds of joins: 'left' joins and 'inner' joins. For this example, we will be using the `band_members` and `band_instruments` dataframes, which are simple, 3-row datasets that comes included in the dplyr package.
 
-
-```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 ```
 
@@ -118,3 +117,32 @@ band_instruments_with_dup %>% get_dupes(name)
 ```
 
 Sometimes you may expect duplicate values in a column, and sometimes they may come as a surprise. General Rule: always know what each row represents in your data and what it should be unique by.
+
+
+## Pro tip: clean column names using janitor package
+
+Often times, the column names in your raw data are all over the place—with random capitalizations and spaces—making your data annoying to work with. 
+
+Use the `clean_names` function from `janitor` package to standardize your column names right after importing your data. It'll make your life so much easier
+
+See this quick example using the [NYCHA Facilities dataset](https://data.cityofnewyork.us/Housing-Development/NYCHA-Facilities-and-Service-Centers/d4iy-9uh7) from NYC Open Data.
+
+```{r message=FALSE, warning=FALSE}
+# Remember to run `install.packages('janitor')` in your console if you've
+# never installed this package before.
+library(janitor)
+
+nycha_original_column_names <- read_csv('NYCHA_Facilities_and_Service_Centers.csv')
+
+glimpse(nycha_original_column_names)
+```
+
+If we run the `clean_names` function after reading in our CSV, we start with wayyyy nicer column names:
+
+```{r message=FALSE, warning=FALSE}
+nycha_clean_column_names <- read_csv('NYCHA_Facilities_and_Service_Centers.csv') %>% clean_names()
+
+glimpse(nycha_clean_column_names)
+```
+
+
